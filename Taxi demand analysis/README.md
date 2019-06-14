@@ -30,8 +30,8 @@ Then we aggregate the number of taxi demands during every time-step length.That 
 RMSE (train) = 0.084025, RMSE (test) = 0.104904
 ```
 
-<h4>Time Series to Supervised</h4>
 <p>However, we should notice that this is a time series problem, Random Forests don’t fit very well for increasing or decreasing trends which are usually encountered when dealing with time-series analysis, such as seasonality! An idea to further improve predictions using Random Forests is to flatten the data.<br><br>
+<h4>Time Series to Supervised</h4>
 A time series must be transformed into samples with input and output components. The transform both informs what the model will learn and how you intend to use the model in the future when making predictions, e.g. what is required to make a prediction (X) and what prediction is made (y). </p>
 
 ```
