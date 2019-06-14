@@ -5,24 +5,25 @@
 <li><b>Geohash6</b> : Geohash is a public domain geocoding system which encodes a geographic location into a short string of letters and digits with arbitrary precision</li>
 <li><b>Timestamp</b>:
 Start time of 15-minute intervals, in the following format: (hour:minute), where hour ranges from 0 to 23 and minute is either one of (0, 15, 30, 45) </li>
-<li><b>Day </b>:Day, where the value indicates the sequential order and not a particular day of the month</li>
+<li><b>Day </b>: Day, where the value indicates the sequential order and not a particular day of the month</li>
 <li><b>Demand</b> : Aggregated demand normalised to be in the range [0,1]</li><br>
 <p>The information in this raw dataset including taxi pick-up day, timestamp, locations, which contains 4 million observations</p>
 <h2>Data preprocessing</h2>
-**Time**
+<b>Time</b>
 <p> Since we want to predict the amount of demand at a given timestamp, we transfer the time into bins(intervals) of 15 minutes and divide origin"day" column by 7 and retrieve its remainder.</p>
 <li><b>timebin_no : </b> Transfer the whole time into 15-min time bin ex: 24*4 = 96 bins</li>
 <li><b>map_day :</b> "day" % 7 </li>
 <br>
-**Location**
-<p>Next, we use Googlemap api to see location of this dataset based on latitude and longitude decoded from the Geohash6 given, it is obvious that the origin Geohash6 code had been encrypted, since the latitude & longitude in this dataset are all located in Indian Ocean.<br>
+<b>Location</b>
+<p>Next, we use Googlemap api to see location of this dataset based on latitude and longitude decoded from the Geohash6 given, it is obvious that the origin Geohash6 code had been encrypted, since the latitude & longitude in this dataset are all located in Indian Ocean.<br><br>
 It is desired to predict taxi demand in the small area so that the taxi driver know exactly where to go. However, learning to predict taxi demand in small area is difficult .Therefore, choosing an area size which is both easy to predict and sufficiently accurate for the drives. Geohash can divide a geographical area into smaller subareas with arbitrary precision. Geohash is a geocoding system that has a
 hierarchical spatial data structure which subdivides space into buckets of grid shape. The size of the grid is determined by the number of characters used in the Geohash code.Fortunately, Geohash code is already given in this dataset.<br><br>
 Then we aggregate the number of taxi demands during every time-step length.That is to say, we group by the raw taxi data by each time bin, Geohash code and the map_day. In such a way, historical taxi data in each area becomes the aggregated number of demand data sequences.We get an observation that there are some time_bins that do not have any demand so we fill a value of zero for every bins where no demand data is present.</p>
 
 
 <h2>Modelling</h2>
-**Random Forest**
+
+<b>Random Forest</b>
 <p>The tree regression model is capable of representing complex decision boundaries, so we firstly fed the data sequences into Random Forest model and we get the following result:</p>
 
 ```
@@ -54,11 +55,12 @@ X,          y
 [1, 2, 3], [4]
 [2, 3, 4], [5]
 [3, 4, 5], [6]
+...
 ```
 
 <p>After finishing up the above method, we later fed our data sequences into model again.</p>
 
-<p>**Random Forest**
+<b>Random Forest</b>
 <p>This time we get the following result:</p>
 
 ```
@@ -66,14 +68,14 @@ RMSE (train) = 0.067383, RMSE (test) = 0.094441
 ```
 <p> After transforming the data we got the much better result from the previous one. </p>
 
-**XGB**
+<b>XGB</b>
 <p>XGBoost is an advanced gradient boosting algorithm. It is a highly sophisticated algorithm, powerful enough to deal with all sorts of irregularities of data. We get the following result from our XGBoost model:</p>
 
 ```
 RMSE (train) = 0.099317, RMSE (test) = 0.100675
 ```
 
-**LSTM**
+<b>LSTM</b>
 <p>The sequential nature of taxi demand data leads us to the
 choice of a model that can handle time series data. Recurrent
 neural networks (RNNs) are one of the most popular models
