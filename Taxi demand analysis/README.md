@@ -90,4 +90,4 @@ to their gating mechanism. We got the following result from the LSTM model:</p>
 Test RMSE: 0.086824
 ```
 <h2>Conclusion</h2>
-Overall, the LSTM model perform best, likely due to its ability to perform time series problem.
+<p>Overall, the LSTM model perform best, likely due to its ability to perform time series problem.</p>
