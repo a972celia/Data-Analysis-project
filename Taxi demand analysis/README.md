@@ -15,10 +15,13 @@ Start time of 15-minute intervals, in the following format: (hour:minute), where
 <li><b>map_day :</b> "day" % 7 </li>
 <br>
 <b>Location</b>
-<p>Next, we use Googlemap api to see location of this dataset based on latitude and longitude decoded from the Geohash6 given, it is obvious that the origin Geohash6 code had been encrypted, since the latitude & longitude in this dataset are all located in Indian Ocean.<br><br>
+<p>Next, we use Googlemap api to see location of this dataset based on latitude and longitude decoded from the Geohash6 given, it is obvious that the origin Geohash6 code had been encrypted, because the latitude & longitude in this dataset are all located in Indian Ocean.<br><br>
 It is desired to predict taxi demand in the small area so that the taxi driver know exactly where to go. However, learning to predict taxi demand in small area is difficult .Therefore, choosing an area size which is both easy to predict and sufficiently accurate for the drives. Geohash can divide a geographical area into smaller subareas with arbitrary precision. Geohash is a geocoding system that has a
-hierarchical spatial data structure which subdivides space into buckets of grid shape. The size of the grid is determined by the number of characters used in the Geohash code.Fortunately, Geohash code is already given in this dataset.<br><br>
-Then we aggregate the number of taxi demands during every time-step length.That is to say, we group by the raw taxi data by each time bin, Geohash code and the map_day. In such a way, historical taxi data in each area becomes the aggregated number of demand data sequences.We get an observation that there are some time_bins that do not have any demand so we fill a value of zero for every bins where no demand data is present.</p>
+hierarchical spatial data structure which subdivides space into buckets of grid shape. The size of the grid is determined by the number of characters used in the Geohash code.Fortunately, Geohash code is already given in this dataset.</p>
+<b>Final format</b>
+<p>
+Then we aggregate the number of taxi demands during every time-step length.That is to say, we group by the raw taxi data by each time bin, Geohash code and the map_day. In such a way, historical taxi data in each area becomes the aggregated number of demand data sequences.We get an observation that there are some time_bins that do not have any demand so we fill a value of zero for every bins where no demand data is present.
+</p>
 
 
 <h2>Modelling</h2>
@@ -64,15 +67,15 @@ X,          y
 <p>This time we get the following result:</p>
 
 ```
-RMSE (train) = 0.067383, RMSE (test) = 0.094441
+RMSE (train) = 0.070520, RMSE (test) = 0.091750
 ```
-<p> After transforming the data we got the much better result from the previous one. </p>
+<p> After transforming the data we got the much better result compared with the previous one. </p>
 
 <b>XGB</b>
 <p>XGBoost is an advanced gradient boosting algorithm. It is a highly sophisticated algorithm, powerful enough to deal with all sorts of irregularities of data. We get the following result from our XGBoost model:</p>
 
 ```
-RMSE (train) = 0.099317, RMSE (test) = 0.100675
+RMSE (train) = 0.102508, RMSE (test) = 0.088560
 ```
 
 <b>LSTM</b>
@@ -84,5 +87,7 @@ kind of RNN, capable of learning long-term dependencies due
 to their gating mechanism. We got the following result from the LSTM model:</p>
 
 ```
-Test RMSE: 0.095
+Test RMSE: 0.086824
 ```
+<h2>Conclusion</h2>
+Overall, the LSTM model perform best, likely due to its ability to perform time series problem.
