@@ -6,4 +6,4 @@
 In this project, we complete the analysis of what sorts of people were likely to survive. In particular, we ask you to apply the tools of machine learning to predict which passengers survived the tragedy.</p>
 
 <h2>Tool</h2>
--Python
+ Python
